@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>Pressure Dome Water Tank Tile Mockup</title>
+<style>
+:root{
+  color-scheme:dark;
+  font-family:Inter,Arial,sans-serif;
+  --bg:#050606;
+  --txt:#edf3f4;
+  --muted:#9aa4a8;
+  --gold:#dfbd55;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:#050606;
+  color:var(--txt);
+}
+.app{
+  min-height:100vh;
+  padding:24px clamp(14px,3vw,38px) 44px;
+  background:
+    radial-gradient(circle at 50% 18%,rgba(180,188,192,.14),transparent 38%),
+    radial-gradient(circle at 52% 56%,rgba(90,96,99,.11),transparent 34%),
+    linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px),
+    linear-gradient(0deg,rgba(255,255,255,.025) 1px,transparent 1px),
+    #050606;
+  background-size:auto,auto,106px 106px,106px 106px,auto;
+}
+.bar{
+  max-width:1500px;
+  margin:0 auto 22px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  padding:13px 15px;
+  border:1px solid rgba(220,225,226,.16);
+  border-radius:14px;
+  background:rgba(7,9,10,.78);
+  box-shadow:0 18px 60px rgba(0,0,0,.42);
+  backdrop-filter:blur(16px);
+}
+h1{
+  margin:0;
+  color:#f2df8f;
+  font-size:15px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+.sub{margin:4px 0 0;color:#9ea7aa;font-size:11px}
+.pill{
+  border:1px solid rgba(215,173,56,.34);
+  border-radius:999px;
+  background:rgba(0,0,0,.28);
+  color:#eef3f4;
+  padding:8px 11px;
+  font-size:11px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+.head{
+  max-width:1500px;
+  margin:0 auto 18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:16px;
+}
+.eyebrow{
+  color:var(--gold);
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+h2{
+  margin:4px 0 0;
+  font-size:clamp(30px,4vw,52px);
+}
+.head p{margin:8px 0 0;color:var(--muted)}
+.tiles{
+  max-width:1360px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(12,minmax(0,1fr));
+  grid-template-rows:repeat(3,minmax(300px,auto));
+  gap:20px;
+  align-items:center;
+  position:relative;
+}
+.tiles:before{
+  content:'';
+  grid-column:4/10;
+  grid-row:1/4;
+  align-self:stretch;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at center,rgba(170,176,179,.12),rgba(120,126,129,.055) 40%,transparent 68%);
+  filter:blur(2px);
+  z-index:0;
+  pointer-events:none;
+}
+.tile{
+  --a:#75f05d;
+  --r:117,240,93;
+  --level:84%;
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  min-height:310px;
+  padding:18px;
+  border:1px solid rgba(var(--r),.48);
+  border-radius:18px;
+  background:
+    linear-gradient(155deg,rgba(var(--r),.18),rgba(8,11,12,.9) 46%,rgba(0,0,0,.8)),
+    rgba(5,7,8,.92);
+  box-shadow:
+    0 24px 78px rgba(0,0,0,.55),
+    0 0 50px rgba(var(--r),.16),
+    inset 0 1px 0 rgba(255,255,255,.14),
+    inset 0 -1px 0 rgba(var(--r),.18);
+}
+.tile:before{
+  content:'';
+  position:absolute;
+  inset:8px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.08);
+  background:
+    linear-gradient(90deg,rgba(255,255,255,.08) 0 1px,transparent 1px 100%) 14px 0/36px 100%,
+    repeating-linear-gradient(0deg,rgba(255,255,255,.09) 0 1px,transparent 1px 30px);
+  opacity:.34;
+  z-index:1;
+  pointer-events:none;
+}
+.tile:after{
+  content:'';
+  position:absolute;
+  inset:-1px;
+  background:
+    linear-gradient(112deg,transparent 0 20%,rgba(255,255,255,.18) 25%,transparent 34%),
+    radial-gradient(circle at 78% 14%,rgba(255,255,255,.12),transparent 12%);
+  opacity:.42;
+  z-index:3;
+  pointer-events:none;
+}
+.water{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:var(--level);
+  z-index:0;
+  background:
+    linear-gradient(180deg,rgba(var(--r),.9),rgba(var(--r),.48) 42%,rgba(var(--r),.2)),
+    radial-gradient(circle at 42% 18%,rgba(255,255,255,.28),transparent 18%);
+  box-shadow:
+    inset 0 20px 44px rgba(255,255,255,.1),
+    inset 0 -28px 52px rgba(0,0,0,.32),
+    0 -12px 38px rgba(var(--r),.32);
+}
+.water:before,
+.water:after{
+  content:'';
+  position:absolute;
+  left:-48%;
+  right:-48%;
+  top:-30px;
+  height:58px;
+  background:
+    radial-gradient(ellipse at 50% 84%,rgba(255,255,255,.34) 0 12%,rgba(var(--r),.9) 13% 46%,transparent 48%) 0 0/88px 58px repeat-x;
+  opacity:.9;
+  filter:drop-shadow(0 -2px 12px rgba(var(--r),.42));
+  animation:wave 7s linear infinite;
+}
+.water:after{
+  top:-21px;
+  opacity:.52;
+  background:
+    radial-gradient(ellipse at 50% 82%,rgba(255,255,255,.18) 0 10%,rgba(var(--r),.82) 11% 42%,transparent 45%) 0 0/112px 48px repeat-x;
+  animation-duration:10s;
+  animation-direction:reverse;
+}
+.bubble{
+  position:absolute;
+  z-index:2;
+  bottom:14px;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:rgba(255,255,255,.44);
+  box-shadow:0 0 12px rgba(255,255,255,.26);
+  animation:bubble 6.2s ease-in infinite;
+  opacity:0;
+}
+.b1{left:20%;animation-delay:.2s}
+.b2{left:46%;width:5px;height:5px;animation-delay:1.4s;animation-duration:7.6s}
+.b3{left:73%;width:10px;height:10px;animation-delay:2.6s;animation-duration:6.8s}
+@keyframes wave{
+  from{transform:translateX(0)}
+  to{transform:translateX(88px)}
+}
+@keyframes bubble{
+  0%{transform:translateY(0) scale(.6);opacity:0}
+  16%{opacity:.48}
+  100%{transform:translateY(-235px) scale(1.3);opacity:0}
+}
+.top,.value,.read,.panes,.level{
+  position:relative;
+  z-index:4;
+}
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  color:var(--a);
+  font-size:12px;
+  font-weight:950;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  text-shadow:0 0 16px rgba(var(--r),.72);
+}
+.live{
+  border:1px solid rgba(var(--r),.75);
+  border-radius:999px;
+  padding:4px 7px;
+  font-size:9px;
+}
+.value{
+  margin-top:24px;
+  text-align:center;
+  color:#f7fbfb;
+  font-size:clamp(34px,4vw,48px);
+  font-weight:950;
+  text-shadow:
+    0 0 24px rgba(var(--r),.62),
+    0 2px 0 rgba(0,0,0,.45);
+}
+.read{
+  margin:6px auto 0;
+  width:max-content;
+  max-width:100%;
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:999px;
+  background:rgba(0,0,0,.36);
+  color:#dfe8ea;
+  padding:7px 10px;
+  font-size:10px;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  backdrop-filter:blur(12px);
+}
+.level{
+  position:absolute;
+  right:14px;
+  bottom:calc(var(--level) - 12px);
+  min-width:48px;
+  border:1px solid rgba(var(--r),.45);
+  border-radius:999px;
+  background:rgba(0,0,0,.48);
+  color:#f7fbfb;
+  padding:5px 8px;
+  font-size:11px;
+  font-weight:900;
+  text-align:center;
+  box-shadow:0 0 18px rgba(var(--r),.25);
+  transform:translateY(50%);
+  z-index:5;
+}
+.panes{
+  position:absolute;
+  left:14px;
+  right:14px;
+  bottom:14px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+.pane{
+  min-height:50px;
+  border:1px solid rgba(var(--r),.28);
+  border-radius:10px;
+  background:rgba(0,0,0,.36);
+  padding:8px;
+  backdrop-filter:blur(12px);
+}
+.pane b{
+  display:block;
+  color:#f7fbfb;
+  font-size:12px;
+}
+.pane span{
+  display:block;
+  margin-top:4px;
+  color:#bac4c7;
+  font-size:10px;
+}
+.green{--a:#75f05d;--r:117,240,93;--level:84%}
+.gold{--a:#e0b33b;--r:224,179,59;--level:94%}
+.teal{--a:#00e0dc;--r:0,224,220;--level:99%}
+.blue{--a:#42cfff;--r:66,207,255;--level:87%}
+.orange{--a:#ff7b18;--r:255,123,24;--level:94%}
+.pink{--a:#ff52c8;--r:255,82,200;--level:76%}
+.purple{--a:#9d68ff;--r:157,104,255;--level:87%}
+.tile.main{
+  grid-column:5/span 4;
+  grid-row:2;
+  min-height:392px;
+  z-index:3;
+}
+.tile.main .value{font-size:clamp(52px,6vw,78px);margin-top:40px}
+.tile.main .panes{grid-template-columns:1fr 1fr}
+.gold{grid-column:3/span 3;grid-row:1}
+.teal{grid-column:8/span 3;grid-row:1}
+.blue{grid-column:1/span 3;grid-row:2}
+.orange{grid-column:10/span 3;grid-row:2}
+.pink{grid-column:3/span 3;grid-row:3}
+.purple{grid-column:8/span 3;grid-row:3}
+@media(max-width:1050px){
+  .tiles{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    grid-template-rows:none;
+    max-width:850px;
+  }
+  .tiles:before{display:none}
+  .tile,.tile.main,.gold,.teal,.blue,.orange,.pink,.purple{
+    grid-column:auto;
+    grid-row:auto;
+  }
+  .tile.main{grid-column:1/-1}
+}
+@media(max-width:650px){
+  .bar,.head{display:block}
+  .pill{display:inline-block;margin-top:12px}
+  .tiles{grid-template-columns:1fr}
+  .tile.main{grid-column:auto}
+  .tile{min-height:330px}
+  .tile.main{min-height:370px}
+}
+@media(prefers-reduced-motion:reduce){
+  .water:before,.water:after,.bubble{animation:none}
+}
+</style>
+</head>
+<body>
+<div class='app'>
+  <header class='bar'>
+    <div>
+      <h1>Pressure Dome</h1>
+      <p class='sub'>Water tank tile concept</p>
+    </div>
+    <span class='pill'>Mockup Only</span>
+  </header>
+  <section class='head'>
+    <div>
+      <div class='eyebrow'>Executive Overview</div>
+      <h2>Organizational Command</h2>
+      <p>Seven-tile spoke layout using animated liquid fill as the tile visual.</p>
+    </div>
+    <span class='pill'>7 live tiles</span>
+  </section>
+  <main class='tiles'>
+    <article class='tile green main'>
+      <div class='water'><span class='bubble b1'></span><span class='bubble b2'></span><span class='bubble b3'></span></div>
+      <div class='top'><span>Score Card</span><span class='live'>Live</span></div>
+      <div class='value'>84%</div>
+      <div class='read'>Health</div>
+      <div class='level'>84%</div>
+      <div class='panes'><div class='pane'><b>Score Inputs</b><span>5 areas</span></div><div class='pane'><b>Target</b><span>86%</span></div></div>
+    </article>
+    <article class='tile gold'>
+      <div class='water'><span class='bubble b1'></span><span class='bubble b2'></span><span class='bubble b3'></span></div>
+      <div class='top'><span>Live Payroll</span><span class='live'>Live</span></div>
+      <div class='value'>$205K</div>
+      <div class='read'>94% plan</div>
+      <div class='level'>94%</div>
+      <div class='panes'><div class='pane'><b>3-mo avg</b><span>$198K</span></div><div class='pane'><b>Target</b><span>$198K</span></div></div>
+    </article>
+    <article class='tile teal'>
+      <div class='water'><span class='bubble b1'></span><span class='bubble b2'></span><span class='bubble b3'></span></div>
+      <div class='top'><span>PPD</span><span class='live'>Live</span></div>
+      <div class='value'>4.88</div>
+      <div class='read'>99% target</div>
+      <div class='level'>99%</div>
+      <div class='panes'><div class='pane'><b>Target HPPD</b><span>4.91</span></div><div class='pane'><b>Prior close</b><span>4.94</span></div></div>
+    </article>
+    <article class='tile blue'>
+      <div class='water'><span class='bubble b1'></span><span class='bubble b2'></span><span class='bubble b3'></span></div>
+      <div class='top'><span>Payroll $ & Avg</span><span class='live'>Live</span></div>
+      <div class='value'>$3.29M</div>
+      <div class='read'>87% confidence</div>
+      <div class='level'>87%</div>
+      <div class='panes'><div class='pane'><b>Best month</b><span>$3.04M</span></div><div class='pane'><b>3-mo avg</b><span>$3.17M</span></div></div>
+    </article>
+    <article class='tile orange'>
+      <div class='water'><span class='bubble b1'></span><span class='bubble b2'></span><span class='bubble b3'></span></div>
+      <div class='top'><span>Occupancy & Census</span><span class='live'>Live</span></div>
+      <div class='value'>1,721</div>
+      <div class='read'>94% occupied</div>
+      <div class='level'>94%</div>
+      <div class='panes'><div class='pane'><b>3-mo occ avg</b><span>92.1%</span></div><div class='pane'><b>Target ADC</b><span>1,700</span></div></div>
+    </article>
+    <article class='tile pink'>
+      <div class='water'><span class='bubble b1'></span><span class='bubble b2'></span><span class='bubble b3'></span></div>
+      <div class='top'><span>OT & Agency</span><span class='live'>Live</span></div>
+      <div class='value'>1,642</div>
+      <div class='read'>76% level</div>
+      <div class='level'>76%</div>
+      <div class='panes'><div class='pane'><b>Target OT</b><span>982 hrs</span></div><div class='pane'><b>Agency</b><span>Watch</span></div></div>
+    </article>
+    <article class='tile purple'>
+      <div class='water'><span class='bubble b1'></span><span class='bubble b2'></span><span class='bubble b3'></span></div>
+      <div class='top'><span>Forecasting</span><span class='live'>Live</span></div>
+      <div class='value'>87%</div>
+      <div class='read'>Confidence</div>
+      <div class='level'>87%</div>
+      <div class='panes'><div class='pane'><b>Close forecast</b><span>Watch</span></div><div class='pane'><b>Target</b><span>90%</span></div></div>
+    </article>
+  </main>
+</div>
+</body>
+</html>
