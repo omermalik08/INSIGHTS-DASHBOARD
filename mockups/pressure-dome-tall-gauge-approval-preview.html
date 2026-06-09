@@ -1,6 +1,6 @@
 <!doctype html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>Dashboard Loading</title><style>body{margin:0;background:#050606;color:#eef3f4;font-family:Arial,sans-serif;display:grid;min-height:100vh;place-items:center}.loader{border:1px solid rgba(215,173,56,.4);border-radius:16px;padding:22px;background:rgba(0,0,0,.55)}</style></head><body><div class='loader'>Loading dashboard...</div><script>
 const SOURCE='https://raw.githubusercontent.com/omermalik08/INSIGHTS-DASHBOARD/22294ecc2d0df14d0251959d37e815d9d8aecf21/mockups/pressure-dome-tall-gauge-approval-preview.html';
-const patches=[
+const linePatches=[
   ['.detailChart{min-height:300px;padding:18px;border:1px solid rgba(var(--dr),.22);border-radius:16px;background:radial-gradient(circle at 50% 24%,rgba(var(--dr),.14),transparent 42%),rgba(0,0,0,.32)}','.detailChart{min-height:300px;padding:18px;border:1px solid rgba(var(--dr),.22);border-radius:16px;background:radial-gradient(circle at 50% 24%,rgba(var(--dr),.14),transparent 42%),rgba(0,0,0,.32);overflow:hidden}'],
   ['.lineGraph{width:100%;height:280px;display:block;overflow:visible}','.lineGraph{width:100%;height:280px;display:block;overflow:hidden}'],
   ['.axis{stroke:rgba(230,238,240,.16);stroke-width:1}','.axis{fill:none;stroke:rgba(230,238,240,.16);stroke-width:1;shape-rendering:crispEdges}'],
@@ -10,13 +10,30 @@ const patches=[
   ['.dot{fill:#020303;stroke:var(--da);stroke-width:4}','.dot{fill:#020303;stroke:var(--da);stroke-width:4;vector-effect:non-scaling-stroke}'],
   ['.detailTable .vp{padding:5px 8;min-width:54px}','.detailTable .vp{padding:5px 8px;min-width:54px}']
 ];
+const settingsCss=`<style>
+.brandBanner{max-width:1580px;height:86px;margin:0 auto 14px;border:1px solid rgba(220,225,226,.16);border-radius:18px;background:linear-gradient(145deg,rgba(255,255,255,.07),rgba(0,0,0,.58));box-shadow:0 18px 62px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.08);backdrop-filter:blur(16px)}
+.actions{align-items:center}.settingsWrap{position:relative}.settingsPanel{position:absolute;right:0;top:calc(100% + 10px);z-index:60;display:none;width:min(720px,calc(100vw - 28px));max-height:calc(100vh - 150px);overflow:auto;border:1px solid rgba(215,173,56,.35);border-radius:18px;background:linear-gradient(150deg,#121415,#030506);box-shadow:0 30px 100px rgba(0,0,0,.72),inset 0 1px 0 rgba(255,255,255,.08);padding:16px;backdrop-filter:blur(22px)}.settingsPanel.on{display:block}.settingsTop{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;margin-bottom:14px;padding-bottom:13px;border-bottom:1px solid rgba(220,225,226,.12)}.settingsTop h3{margin:3px 0 4px;color:#f0d76b;font-size:15px;letter-spacing:.16em;text-transform:uppercase}.settingsTop p{margin:0;color:#aeb8bb;font-size:11px;line-height:1.45}.settingsGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.settingGroup{border:1px solid rgba(220,225,226,.14);border-radius:14px;background:linear-gradient(145deg,#17191a,#070909);padding:13px}.settingGroup.full{grid-column:1/-1}.settingHead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px;color:#f0d76b;font-size:11px;font-weight:950;letter-spacing:.14em;text-transform:uppercase}.settingHint{display:block;margin-top:3px;color:#9da7aa;font-size:10px;font-weight:700;letter-spacing:0;text-transform:none}.settingControls{display:flex;gap:8px;flex-wrap:wrap}.settingsPanel .btn{padding:8px 10px}.settingsPanel .user{grid-template-columns:1.1fr .9fr .9fr auto;align-items:center}.permissionGrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}.permissionGrid label{border:1px solid rgba(220,225,226,.12);border-radius:10px;background:rgba(0,0,0,.25);padding:9px;color:#dce4e6;font-size:11px;font-weight:850}body.light .brandBanner{background:linear-gradient(145deg,rgba(255,255,255,.55),rgba(6,8,9,.13));border-color:rgba(20,24,26,.16);box-shadow:0 18px 52px rgba(72,68,54,.18),inset 0 1px 0 rgba(255,255,255,.62)}body.light .settingsPanel{background:linear-gradient(150deg,#121415,#030506);color:#edf2f3}
+@media(max-width:650px){.brandBanner{height:62px;border-radius:14px;margin-bottom:10px}.settingsWrap{width:100%}.settingsPanel{position:fixed;left:10px;right:10px;top:112px;width:auto;max-height:calc(100vh - 126px)}.settingsGrid,.permissionGrid{grid-template-columns:1fr}}
+</style>`;
+function applySettings(){
+  const app=document.querySelector('.app'), top=document.querySelector('.top'), actions=document.querySelector('.actions'), oldBtn=document.querySelector('#settingsBtn'), oldSettings=document.querySelector('#settings');
+  if(app&&top&&!document.querySelector('.brandBanner')){const banner=document.createElement('div');banner.className='brandBanner';app.insertBefore(banner,top)}
+  if(oldSettings)oldSettings.remove();
+  if(!actions||!oldBtn||document.querySelector('.settingsWrap'))return;
+  const wrap=document.createElement('div');wrap.className='settingsWrap';oldBtn.replaceWith(wrap);wrap.appendChild(oldBtn);oldBtn.onclick=null;oldBtn.setAttribute('aria-expanded','false');
+  const panel=document.createElement('div');panel.id='settings';panel.className='settingsPanel';
+  panel.innerHTML=`<div class='settingsTop'><div><h3>Settings</h3><p>Dashboard preferences, access, roles, and permissions.</p></div><button class='btn' id='close'>Close</button></div><div class='settingsGrid'><section class='settingGroup'><div class='settingHead'>Theme<span class='settingHint'>Choose the dashboard appearance.</span></div><div class='settingControls'><button class='btn theme on' data-theme='dark'>Dark Theme</button><button class='btn theme' data-theme='light'>Light Theme</button></div></section><section class='settingGroup'><div class='settingHead'>Default View<span class='settingHint'>Set the starting page by user type.</span></div><div class='settingControls'><button class='btn on'>Executive</button><button class='btn'>Facility</button></div></section><section class='settingGroup full'><div class='settingHead'>Users and Roles<span class='settingHint'>Create users, assign roles, and limit facility access.</span></div><div id='users'><div class='user'><b>Omer Malik</b><span>Executive Admin</span><span>All facilities</span><button class='btn'>Edit</button></div><div class='user'><b>Regional Operator</b><span>Regional View</span><span>Assigned facilities</span><button class='btn'>Edit</button></div><div class='user'><b>Facility Leader</b><span>Facility User</span><span>Single facility</span><button class='btn'>Edit</button></div></div></section><section class='settingGroup full'><div class='settingHead'>Permissions<span class='settingHint'>Control which areas each role can use.</span></div><div id='perms' class='permissionGrid'><label><input type='checkbox' checked> Executive dashboard</label><label><input type='checkbox' checked> Facility dashboard</label><label><input type='checkbox' checked> Department comparison table</label><label><input type='checkbox' checked> User management</label><label><input type='checkbox' checked> Theme settings</label><label><input type='checkbox' checked> Export-ready view</label></div></section></div>`;
+  wrap.appendChild(panel);
+  oldBtn.addEventListener('click',e=>{e.stopPropagation();panel.classList.toggle('on');oldBtn.setAttribute('aria-expanded',panel.classList.contains('on')?'true':'false')});
+  panel.querySelector('#close').addEventListener('click',()=>{panel.classList.remove('on');oldBtn.setAttribute('aria-expanded','false')});
+  panel.querySelectorAll('.theme').forEach(b=>b.addEventListener('click',()=>{document.body.classList.toggle('light',b.dataset.theme==='light');document.querySelector('#themePill').textContent=b.dataset.theme==='light'?'Light Theme':'Dark Theme';panel.querySelectorAll('.theme').forEach(x=>x.classList.toggle('on',x===b))}));
+  document.addEventListener('click',e=>{if(!e.target.closest('.settingsWrap')){panel.classList.remove('on');oldBtn.setAttribute('aria-expanded','false')}});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'){panel.classList.remove('on');oldBtn.setAttribute('aria-expanded','false')}});
+}
 fetch(SOURCE,{cache:'no-store'}).then(r=>r.text()).then(html=>{
-  for(const [from,to] of patches) html=html.replace(from,to);
-  document.open();
-  document.write(html);
-  document.close();
-}).catch(err=>{
-  document.body.innerHTML=`<div class='loader'>Preview error. Please refresh.</div>`;
-  console.error(err);
-});
+  for(const [from,to] of linePatches) html=html.replace(from,to);
+  html=html.replace('</head>',settingsCss+'</head>');
+  document.open();document.write(html);document.close();
+  setTimeout(applySettings,0);
+}).catch(err=>{document.body.innerHTML=`<div class='loader'>Preview error. Please refresh.</div>`;console.error(err)});
 </script></body></html>
