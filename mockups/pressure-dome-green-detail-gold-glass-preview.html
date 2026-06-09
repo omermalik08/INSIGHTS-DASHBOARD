@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pressure Dome Green Detail Gold Glass Preview</title>
+<style>
+body{margin:0;min-height:100vh;display:grid;place-items:center;background:#050606;color:#edf3f4;font-family:Inter,Arial,sans-serif}
+.loading{border:1px solid rgba(215,173,56,.34);border-radius:14px;background:rgba(0,0,0,.42);padding:18px 20px;text-align:center;box-shadow:0 24px 80px rgba(0,0,0,.55)}
+.loading b{display:block;color:#f2df8f;font-size:14px;letter-spacing:.16em;text-transform:uppercase}
+.loading span{display:block;margin-top:8px;color:#aeb8bb;font-size:12px}
+</style>
+</head>
+<body>
+<div class="loading"><b>Loading Preview</b><span>Applying green detail format and softer gold glass table panes</span></div>
+<script>
+(async()=>{
+  try{
+    const response = await fetch('pressure-dome-tall-gauge-approval-preview.html?v=fullfix1',{cache:'no-store'});
+    if(!response.ok) throw new Error('Base preview did not load');
+    let html = await response.text();
+    html = html.replace(/<title>.*?<\/title>/i,'<title>Pressure Dome Green Detail Gold Glass Preview</title>');
+    const oldGold = ".total td{background:linear-gradient(120deg,rgba(255,230,118,.94),rgba(204,150,28,.84) 52%,rgba(255,239,161,.88));color:#020202!important;font-weight:950}";
+    const newGold = ".total td{background:linear-gradient(120deg,rgba(228,182,62,.56),rgba(176,122,20,.44) 52%,rgba(246,215,123,.5)),rgba(60,42,8,.28);color:#050505!important;font-weight:950;border-top:1px solid rgba(255,224,118,.26);border-bottom:1px solid rgba(78,50,5,.22);box-shadow:inset 0 1px 0 rgba(255,245,178,.22),0 8px 22px rgba(0,0,0,.16);backdrop-filter:blur(14px)}.total .vp{background:rgba(255,255,255,.2)!important;color:#050505!important;border:1px solid rgba(0,0,0,.16);box-shadow:inset 0 1px 0 rgba(255,255,255,.22)}";
+    html = html.replace(oldGold,newGold);
+    html = html.replace(".detailHero .ring{width:220px;height:220px}.detailValue",".detailHero .ring{width:220px;height:220px}.detailHero .ring b{font-size:22px;line-height:1.05;max-width:156px;overflow-wrap:anywhere}.detailHero .ring small{font-size:9px}.detailValue");
+    const oldRing = "<div class='ring ${t[0]}'><b>${t[2].includes(`$`)?t[3]:t[2]}<small>${t[3]}</small></b></div>";
+    const newRing = "<div class='ring ${t[0]}'><b>${p.current}<small>${t[3]}</small></b></div>";
+    html = html.split(oldRing).join(newRing);
+    document.open();
+    document.write(html);
+    document.close();
+  }catch(error){
+    document.body.innerHTML = '<div class="loading"><b>Preview Error</b><span>The approved dashboard was not changed. Please refresh once.</span></div>';
+  }
+})();
+</script>
+</body>
+</html>
